@@ -35,15 +35,15 @@ class aodh::listener (
     } else {
       $service_ensure = 'stopped'
     }
-  }
 
-  Package['aodh'] -> Service['aodh-listener']
-  service { 'aodh-listener':
-    ensure     => $service_ensure,
-    name       => $::aodh::params::listener_service_name,
-    enable     => $enabled,
-    hasstatus  => true,
-    hasrestart => true,
-    tag        => 'aodh-service',
+    Package['aodh'] -> Service['aodh-listener']
+    service { 'aodh-listener':
+      ensure     => $service_ensure,
+      name       => $::aodh::params::listener_service_name,
+      enable     => $enabled,
+      hasstatus  => true,
+      hasrestart => true,
+      tag        => 'aodh-service',
+    }
   }
 }

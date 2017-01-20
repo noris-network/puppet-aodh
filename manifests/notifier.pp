@@ -35,15 +35,15 @@ class aodh::notifier (
     } else {
       $service_ensure = 'stopped'
     }
-  }
 
-  Package['aodh'] -> Service['aodh-notifier']
-  service { 'aodh-notifier':
-    ensure     => $service_ensure,
-    name       => $::aodh::params::notifier_service_name,
-    enable     => $enabled,
-    hasstatus  => true,
-    hasrestart => true,
-    tag        => 'aodh-service',
+    Package['aodh'] -> Service['aodh-notifier']
+    service { 'aodh-notifier':
+      ensure     => $service_ensure,
+      name       => $::aodh::params::notifier_service_name,
+      enable     => $enabled,
+      hasstatus  => true,
+      hasrestart => true,
+      tag        => 'aodh-service',
+    }
   }
 }

@@ -46,15 +46,15 @@ class aodh::evaluator (
     } else {
       $service_ensure = 'stopped'
     }
-  }
 
-  Package['aodh'] -> Service['aodh-evaluator']
-  service { 'aodh-evaluator':
-    ensure     => $service_ensure,
-    name       => $::aodh::params::evaluator_service_name,
-    enable     => $enabled,
-    hasstatus  => true,
-    hasrestart => true,
-    tag        => ['aodh-service','aodh-db-sync-service']
+    Package['aodh'] -> Service['aodh-evaluator']
+    service { 'aodh-evaluator':
+      ensure     => $service_ensure,
+      name       => $::aodh::params::evaluator_service_name,
+      enable     => $enabled,
+      hasstatus  => true,
+      hasrestart => true,
+      tag        => ['aodh-service','aodh-db-sync-service']
+    }
   }
 }

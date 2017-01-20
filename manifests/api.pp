@@ -170,37 +170,37 @@ class aodh::api (
     } else {
       $service_ensure = 'stopped'
     }
-  }
 
-  if $sync_db {
-    include ::aodh::db::sync
-  }
-
-  if $service_name == $::aodh::params::api_service_name {
-    service { 'aodh-api':
-      ensure     => $service_ensure,
-      name       => $::aodh::params::api_service_name,
-      enable     => $enabled,
-      hasstatus  => true,
-      hasrestart => true,
-      require    => Class['aodh::db'],
-      tag        => 'aodh-service',
+    if $sync_db {
+      include ::aodh::db::sync
     }
-  } elsif $service_name == 'httpd' {
-    include ::apache::params
-    service { 'aodh-api':
-      ensure => 'stopped',
-      name   => $::aodh::params::api_service_name,
-      enable => false,
-      tag    => 'aodh-service',
-    }
-    Class['aodh::db'] -> Service[$service_name]
 
-    # we need to make sure aodh-api/eventlet is stopped before trying to start apache
-    Service['aodh-api'] -> Service[$service_name]
-  } else {
-    fail("Invalid service_name. Either aodh/openstack-aodh-api for running \
-as a standalone service, or httpd for being run by a httpd server")
+    if $service_name == $::aodh::params::api_service_name {
+      service { 'aodh-api':
+        ensure     => $service_ensure,
+        name       => $::aodh::params::api_service_name,
+        enable     => $enabled,
+        hasstatus  => true,
+        hasrestart => true,
+        require    => Class['aodh::db'],
+        tag        => 'aodh-service',
+      }
+    } elsif $service_name == 'httpd' {
+      include ::apache::params
+      service { 'aodh-api':
+        ensure => 'stopped',
+        name   => $::aodh::params::api_service_name,
+        enable => false,
+        tag    => 'aodh-service',
+      }
+      Class['aodh::db'] -> Service[$service_name]
+
+      # we need to make sure aodh-api/eventlet is stopped before trying to start apache
+      Service['aodh-api'] -> Service[$service_name]
+    } else {
+      fail("Invalid service_name. Either aodh/openstack-aodh-api for running \
+  as a standalone service, or httpd for being run by a httpd server")
+    }
   }
 
   aodh_config {
