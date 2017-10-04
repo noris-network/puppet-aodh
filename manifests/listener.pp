@@ -19,11 +19,9 @@ class aodh::listener (
   $package_ensure = 'present',
 ) {
 
+  include ::aodh::deps
   include ::aodh::params
 
-  Aodh_config<||> ~> Service['aodh-listener']
-
-  Package[$::aodh::params::listener_package_name] -> Service['aodh-listener']
   ensure_resource( 'package', [$::aodh::params::listener_package_name],
     { ensure => $package_ensure,
       tag    => ['openstack', 'aodh-package'] }
