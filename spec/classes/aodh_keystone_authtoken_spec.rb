@@ -13,7 +13,7 @@ describe 'aodh::keystone::authtoken' do
       it 'configure keystone_authtoken' do
         is_expected.to contain_aodh_config('keystone_authtoken/username').with_value('aodh')
         is_expected.to contain_aodh_config('keystone_authtoken/password').with_value('aodh_password')
-        is_expected.to contain_aodh_config('keystone_authtoken/auth_url').with_value('http://localhost:35357')
+        is_expected.to contain_aodh_config('keystone_authtoken/auth_url').with_value('http://localhost:5000')
         is_expected.to contain_aodh_config('keystone_authtoken/project_name').with_value('services')
         is_expected.to contain_aodh_config('keystone_authtoken/user_domain_name').with_value('Default')
         is_expected.to contain_aodh_config('keystone_authtoken/project_domain_name').with_value('Default')
@@ -43,7 +43,6 @@ describe 'aodh::keystone::authtoken' do
         is_expected.to contain_aodh_config('keystone_authtoken/memcache_use_advanced_pool').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_aodh_config('keystone_authtoken/memcached_servers').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_aodh_config('keystone_authtoken/region_name').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_aodh_config('keystone_authtoken/revocation_cache_time').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_aodh_config('keystone_authtoken/token_cache_time').with_value('<SERVICE DEFAULT>')
       end
     end
@@ -54,7 +53,7 @@ describe 'aodh::keystone::authtoken' do
           :auth_uri                             => 'https://10.0.0.1:9999/',
           :username                             => 'myuser',
           :password                             => 'mypasswd',
-          :auth_url                             => 'http://:127.0.0.1:35357',
+          :auth_url                             => 'http://:127.0.0.1:5000',
           :project_name                         => 'service_project',
           :user_domain_name                     => 'domainX',
           :project_domain_name                  => 'domainX',
@@ -86,7 +85,6 @@ describe 'aodh::keystone::authtoken' do
 ['memcached01:11211','memcached02:11211'],
           :manage_memcache_package              => true,
           :region_name                          => 'region2',
-          :revocation_cache_time                => '11',
           :token_cache_time                     => '301',
         })
       end
@@ -124,7 +122,6 @@ describe 'aodh::keystone::authtoken' do
         is_expected.to contain_aodh_config('keystone_authtoken/memcache_use_advanced_pool').with_value(params[:memcache_use_advanced_pool])
         is_expected.to contain_aodh_config('keystone_authtoken/memcached_servers').with_value('memcached01:11211,memcached02:11211')
         is_expected.to contain_aodh_config('keystone_authtoken/region_name').with_value(params[:region_name])
-        is_expected.to contain_aodh_config('keystone_authtoken/revocation_cache_time').with_value(params[:revocation_cache_time])
         is_expected.to contain_aodh_config('keystone_authtoken/token_cache_time').with_value(params[:token_cache_time])
       end
 

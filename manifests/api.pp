@@ -91,6 +91,7 @@ class aodh::api (
     if $sync_db {
       include ::aodh::db::sync
     }
+    Service <| title == 'httpd' |> { tag +> 'aodh-service' }
 
     if $service_name == $::aodh::params::api_service_name {
       service { 'aodh-api':
